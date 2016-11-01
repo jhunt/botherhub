@@ -1,0 +1,49 @@
+#!/bin/bash
+
+VERSION='0.1'
+WORKDIR=$(mktemp -d --tmpdir ghnag.XXXXXX)
+trap "rm -rf ${WORKDIR}" QUIT TERM INT EXIT
+
+rc=0
+if [[ $# -eq 0 ]]; then
+	set -- help
+	rc=1
+fi
+
+case $1 in
+(-h|--help|-\?|help)
+	echo "USAGE: github-nagger org/repo [org/repo2 ...]"
+	exit $rc
+	;;
+(-v|--version|version)
+	echo "github-nagger v${VERSION}"
+	echo "Copyright (c) 2016 James Hunt"
+	exit 0
+	;;
+esac
+
+for repo in "$@"; do
+	echo -n "checking github.com/${repo}... "
+	curl -sL https://api.github.com/repos/$repo/releases/latest > ${WORKDIR}/latest
+	tag=$(jq -r '.tag_name // empty' < ${WORKDIR}/latest)
+	if [[ -z $tag ]]; then
+		echo >&2 "[$repo] ERROR! No tag found for latest release"
+		continue
+	fi
+	git clone -q --depth 100 https://github.com/${repo} ${WORKDIR}/repo >&2
+	(cd ${WORKDIR}/repo
+	 revs=$(git rev-list ${tag}..master | wc -l)
+	 if [[ $revs -gt 1 ]]; then
+		 echo
+		 echo "${repo} has ${revs} changes since the last release; and ought to be released"
+		 # FIXME: what's the oldest rev?
+		 git log --pretty=format:'%h | %s | %cr | %an' --abbrev-commit ${tag}..master \
+			 | column -t -s '|' 2>/dev/null \
+			 | sed -e 's/^/ /'
+		 #git log --graph --pretty=format:'%h - %d %s (%cr) %an' --abbrev-commit ${tag}..master | sed -e 's/^/ /'
+		 echo ; echo
+	 else
+		 echo "OK"
+	 fi)
+	rm -rf ${WORKDIR}/repo
+done
