@@ -8,6 +8,9 @@ haven't been released, to aid in your release activities.
 
 Hey!  That's what `botherhub` does!
 
+Usage
+-----
+
 Usage is straightforward:
 
     botherhub org/repo [org/repo...]
@@ -35,5 +38,18 @@ Output is suitable for being emailed:
      0f52094    Only check/verify Releases / Stemcells / Index once    3 days ago    James Hunt
      d5a6cb0    More Finesse when handling BOSH directors              3 days ago    James Hunt
      6da79f3    Add env, site, type to name.yml                        3 days ago    James Hunt
+
+Installation
+------------
+
+It's a script.  You can `cp` and `chmod` it, and stuff it in your
+`$PATH`.
+
+If you're on Mac OS, and you like Homebrew, we've got a tap!
+
+```
+brew tap jhunt/hacks
+brew install botherhub
+```
 
 Happy Releasing!
