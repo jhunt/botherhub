@@ -6,20 +6,20 @@ Github Releases feature (which is *awesome*), you may be wondering
 if there is a way to run a report on what repos have commits that
 haven't been released, to aid in your release activities.
 
-Hey!  That's what `github-nagger` does!
+Hey!  That's what `botherhub` does!
 
 Usage is straightforward:
 
-    github-nagger org/repo [org/repo...]
+    botherhub org/repo [org/repo...]
 
 If you have lots of stuff under one org, you can use a neat bash
 trick to ease the typing:
 
-    github-nagger org/{repo1,other-repo,some-tools,etc}
+    botherhub org/{repo1,other-repo,some-tools,etc}
 
 Output is suitable for being emailed:
 
-    $ ./check starkandwayne/{safe,shield,genesis}
+    $ botherhub starkandwayne/{safe,shield,genesis}
     checking github.com/starkandwayne/safe... 
     starkandwayne/safe has 4 changes since the last release; and ought to be released
      5ad9934    Add Windows binary to pipeline             8 hours ago    James Hunt

@@ -12,12 +12,12 @@ fi
 
 case $1 in
 (-h|--help|-\?|help)
-	echo "USAGE: github-nagger org/repo [org/repo2 ...]"
+	echo "USAGE: botherhub org/repo [org/repo2 ...]"
 	exit $rc
 	;;
 (-v|--version|version)
-	echo "github-nagger v${VERSION}"
-	echo "Copyright (c) 2016 James Hunt"
+	echo "botherhub v${VERSION}"
+	echo "Copyright (c) 2018 James Hunt"
 	exit 0
 	;;
 esac
